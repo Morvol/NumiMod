@@ -22,8 +22,14 @@ import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
 
 public class BlockMachine extends BlockContainer{
+	
 	//Definitions
 	public boolean isActive = false;
+	
+	public static int topTexture = 3;
+	public static int frontActiveTexture = 1;
+	public static int frontInactiveTexture = 0;
+	public static int sideTexture = 2;
 	
 	public BlockMachine(int id)
     {
@@ -58,21 +64,16 @@ public class BlockMachine extends BlockContainer{
 	    	mte = (TileEntityMachine) te;
 	    }
 	    if (l == 0 || l == 1) { // Top and Bottom
-	    	return type.getTextureRow() * 16 + 3;
+	    	return type.getTextureRow() * 16 + topTexture;
 	    } else if (mte != null && l == mte.getFacing()) { // Front
 	    	if (this.isActive == true){
-	    		return type.getTextureRow() * 16 + 1;
+	    		return type.getTextureRow() * 16 + frontActiveTexture;
 	    	}else{
-	    		return type.getTextureRow() * 16 + 0;
+	    		return type.getTextureRow() * 16 + frontInactiveTexture;
 	    	} 
 	    } else { // Back and Sides
-	    	if (this.isActive == true){
-	    		return type.getTextureRow() * 16 + 22;
-	    	}else{
-	    		return type.getTextureRow() * 16 + 2;
-	    	}
+	    	return type.getTextureRow() * 16 + sideTexture;
 	    }
-	    
 	}
 	  
 	@Override
