@@ -74,10 +74,7 @@ public class NumiMod {
 		//Items and Blocks properities
 		SquidMeat = new ItemNewFood(SquidMeatID, 4, false).setIconIndex(0).setItemName("SquidMeat");
 		SheepMeat = new ItemNewFood(SheepMeatID, 6, false).setIconIndex(1).setItemName("SheepMeat");
-		BoneWithMeat = new Item(BoneWithMeatID) .setTextureFile(ClientProxy.ITEMS_PNG) .setIconIndex(2).setItemName("BoneWithMeat").setCreativeTab(tabNumiMod);
-		Fridge = new BlockFridge(FridgeID, 0, Material.rock).setBlockName("Fridge");
-		Oven = new BlockOven(OvenID, 1, Material.rock).setBlockName("Oven");
-		
+		BoneWithMeat = new Item(BoneWithMeatID) .setTextureFile(ClientProxy.ITEMS_PNG) .setIconIndex(2).setItemName("BoneWithMeat").setCreativeTab(tabNumiMod);		
 		
 		Machine = new BlockMachine(MachineID, 0).setStepSound(Block.soundStoneFootstep).setHardness(3F).setResistance(1.0F).setBlockName("Machine");
 		  
@@ -90,9 +87,6 @@ public class NumiMod {
 		LanguageRegistry.addName(SquidMeat, "Squid Meat");
 		LanguageRegistry.addName(SheepMeat, "Sheep Meat");
 		LanguageRegistry.addName(BoneWithMeat, "Bone with Meat");
-
-		LanguageRegistry.addName(Fridge, "Fridge");
-		LanguageRegistry.addName(Oven, "Oven");
 
 }
 
