@@ -24,7 +24,7 @@ public class BlockMachine extends Block
 	public BlockMachine(int id)
     {
 		super(id, Material.iron);
-		setBlockName("IronChest");
+		setBlockName("Machine");
 		setHardness(3.0F);
 		setRequiresSelfNotify();
         setCreativeTab(NumiMod.tabNumiMod);
@@ -113,7 +113,9 @@ public class BlockMachine extends Block
 		TileEntityMachine tileentitymachine = (TileEntityMachine) world.getBlockTileEntity(i, j, k);
 	    super.breakBlock(world, i, j, k, i1, i2);
 	  }
-	
+	/**
+	 * Gets a texture file location
+	 */
 	public String getTextureFile()
     {
             return CommonProxy.BLOCKS_PNG;
