@@ -27,21 +27,20 @@ public class ItemNewFood extends ItemFood
  
     /** The amount this food item heals the player. */
     private final int healAmount;
-    private final float saturationModifier;
  
     /** Whether wolves like this food (true for raw and cooked porkchop). */
     private final boolean isWolfsFavoriteMeat;
     
     //Food constructor
-    public ItemNewFood(int par1, int par2, float par3, boolean par4)
+    public ItemNewFood(int par1, int par2, boolean par3)
     {
-        super(par1, par2, par3, par4);
-        this.itemUseDuration = 32;
+    	super(par1, par2, 0.6F, par3);
+    	this.itemUseDuration = 32;
         this.healAmount = par2;
-        this.isWolfsFavoriteMeat = par4;
-        this.saturationModifier = par3;
+        this.isWolfsFavoriteMeat = par3;
         this.setCreativeTab(NumiMod.tabNumiMod);
     }
+
     
     //Getting the textures
     @Override
@@ -49,5 +48,6 @@ public class ItemNewFood extends ItemFood
     {
             return ClientProxy.ITEMS_PNG;
     }
+
 
 }
