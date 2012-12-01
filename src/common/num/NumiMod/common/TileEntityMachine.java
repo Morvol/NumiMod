@@ -5,6 +5,8 @@ import net.minecraft.src.TileEntity;
 
 public class TileEntityMachine extends TileEntity{
 	private byte facing;
+	private MachineType type;
+
 	
 	public TileEntityMachine(MachineType type) {
 		super();
@@ -16,6 +18,15 @@ public class TileEntityMachine extends TileEntity{
 	
 	public void setFacing(byte blockFacing) {
 		    this.facing = blockFacing;
+	}
+	public TileEntityMachine updateFromMetadata(int l) {
+	if (worldObj != null && worldObj.isRemote) {
+		if (l != type.ordinal()) {
+				worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, MachineType.makeEntity(l));
+				return (TileEntityMachine) worldObj.getBlockTileEntity(xCoord, yCoord, zCoord);
+				}
+		}
+	return this;
 	}
 	
 	@Override

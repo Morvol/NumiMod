@@ -3,23 +3,27 @@ package num.NumiMod.common;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.MathHelper;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
-
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 
-public class BlockMachine extends Block
-{
+import net.minecraft.src.BlockContainer;
+import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.EntityItem;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IBlockAccess;
+import net.minecraft.src.IInventory;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.Material;
+import net.minecraft.src.MathHelper;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.World;
+import net.minecraftforge.common.ForgeDirection;
+
+public class BlockMachine extends BlockContainer{
 	//Definitions
-	public final boolean isActive = false;
+	public boolean isActive = false;
 	
 	public BlockMachine(int id)
     {
@@ -29,7 +33,18 @@ public class BlockMachine extends Block
 		setRequiresSelfNotify();
         setCreativeTab(NumiMod.tabNumiMod);
     }
-    
+	
+	@Override
+	public TileEntity createNewTileEntity(World w) {
+	    return null;
+	  }
+	
+	public String getTextureFile()
+    {
+            return CommonProxy.BLOCKS_PNG;
+    }
+	
+	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return MachineType.makeEntity(metadata);
 	}
@@ -45,14 +60,19 @@ public class BlockMachine extends Block
 	    if (l == 0 || l == 1) { // Top and Bottom
 	    	return type.getTextureRow() * 16 + 3;
 	    } else if (mte != null && l == mte.getFacing()) { // Front
-	    	if (this.isActive == false){
-	    		return type.getTextureRow() * 16 + 0;
-	    	}else{
+	    	if (this.isActive == true){
 	    		return type.getTextureRow() * 16 + 1;
+	    	}else{
+	    		return type.getTextureRow() * 16 + 0;
 	    	} 
 	    } else { // Back and Sides
-	    	return type.getTextureRow() * 16 + 2;
+	    	if (this.isActive == true){
+	    		return type.getTextureRow() * 16 + 22;
+	    	}else{
+	    		return type.getTextureRow() * 16 + 2;
+	    	}
 	    }
+	    
 	}
 	  
 	@Override
@@ -72,7 +92,7 @@ public class BlockMachine extends Block
 	      return type.getTextureRow() * 16 + 2;
 	    }
 	  }
-	
+
 	@Override
 	  public void onBlockAdded(World world, int i, int j, int k) {
 	    super.onBlockAdded(world, i, j, k);
@@ -113,15 +133,8 @@ public class BlockMachine extends Block
 		TileEntityMachine tileentitymachine = (TileEntityMachine) world.getBlockTileEntity(i, j, k);
 	    super.breakBlock(world, i, j, k, i1, i2);
 	  }
-	/**
-	 * Gets a texture file location
-	 */
-	public String getTextureFile()
-    {
-            return CommonProxy.BLOCKS_PNG;
-    }
-    
-    @Override
+
+	@Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
   	@SideOnly(Side.CLIENT)
   	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
