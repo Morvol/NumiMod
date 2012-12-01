@@ -7,6 +7,7 @@ import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
+import net.minecraft.src.TileEntity;
 
 //Forge and FML imports
 import net.minecraftforge.common.Configuration;
@@ -22,6 +23,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 //NumiMod imports
@@ -37,12 +39,12 @@ public class NumiMod {
 	//Item definitions
 	public static Item SquidMeat;
 	public static Item SheepMeat;
-	public static Item BoneWithMeat;
-	
-	//Block definitions
-	public static Block Machine;
+	public static Item BoneWithMeat;	
 
-    	//Creative Tabs
+    //Other definitions
+	public static BlockMachine machineBlock;
+	
+	//Creative Tabs
 	public static CreativeTabs tabNumiMod = new CreativeTabNumiMod(CreativeTabs.getNextID(), "NumiModTab");
 
 	//Creating instance
@@ -70,24 +72,23 @@ public class NumiMod {
 	public void init(FMLInitializationEvent event) {
 		//Rendering
 		proxy.registerRenderThings();
-
+		
 		//Items and Blocks properities
 		SquidMeat = new ItemNewFood(SquidMeatID, 4, false).setIconIndex(0).setItemName("SquidMeat");
 		SheepMeat = new ItemNewFood(SheepMeatID, 6, false).setIconIndex(1).setItemName("SheepMeat");
 		BoneWithMeat = new Item(BoneWithMeatID) .setTextureFile(ClientProxy.ITEMS_PNG) .setIconIndex(2).setItemName("BoneWithMeat").setCreativeTab(tabNumiMod);		
-		
-		Machine = new BlockMachine(MachineID, 0).setStepSound(Block.soundStoneFootstep).setHardness(3F).setResistance(1.0F).setBlockName("Machine");
-		  
-		Item.itemsList[MachineID] = new ItemMachine(MachineID-256, Machine).setItemName("Machine");
-		
-       	 	LanguageRegistry.addName(new ItemStack(Machine,1,0), "Oven");
-       		 LanguageRegistry.addName(new ItemStack(Machine,1,1), "Fridge");
 		
 		//Adding names to Items and Blocks
 		LanguageRegistry.addName(SquidMeat, "Squid Meat");
 		LanguageRegistry.addName(SheepMeat, "Sheep Meat");
 		LanguageRegistry.addName(BoneWithMeat, "Bone with Meat");
 
+		machineBlock = new BlockMachine(MachineID);
+		GameRegistry.registerBlock(machineBlock, ItemMachine.class);
+		for (MachineType type : MachineType.values()) {
+			GameRegistry.registerTileEntity(type.clazz, type.name());
+			LanguageRegistry.instance().addStringLocalization(type.name() + ".name", "en_US", type.friendlyName);
+		}
 }
 
 	@PostInit
